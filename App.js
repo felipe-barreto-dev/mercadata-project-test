@@ -4,12 +4,24 @@ import { StyleSheet, Text, View, Alert } from 'react-native';
 import Navigation from './src/navigation'
 import { NavigationContainer } from '@react-navigation/native';
 import * as MediaLibrary from 'expo-media-library';
+import { setMusics } from './src/redux/modules/musics';
+import { useDispatch, useSelector, Provider } from 'react-redux';
 
+import store from './src/redux/store';
 
+export default function AppWrapper() {
 
-export default function App() {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
+
+function App() {
 
   const [medias, setMedias] = useState(null)
+  const dispatch = useDispatch()
 
   const alert = () => {
     Alert.alert(
@@ -20,8 +32,15 @@ export default function App() {
   }
 
   const getMusicsFromDevice = async () => {
-    const media = await MediaLibrary.getAssetsAsync({mediaType:"audio"})
+    let media = await MediaLibrary.getAssetsAsync({
+      mediaType:"audio",
+    });
+    media = await MediaLibrary.getAssetsAsync({
+      mediaType:"audio",
+      first: media.totalCount
+    });
     setMedias(media) 
+    dispatch(setMusics(media))
   }
 
   const getPermission = async () => {
@@ -52,7 +71,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Navigation/>
-    </NavigationContainer>
+    </NavigationContainer> 
   );
 }
 
