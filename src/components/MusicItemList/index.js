@@ -1,15 +1,16 @@
 import React, { Fragment } from 'react'
-import { Text, View, StyleSheet, Dimensions } from 'react-native'
+import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 import { Entypo } from '@expo/vector-icons';
 
-export default function MusicItemList({item}) {
+export default function MusicItemList({item, handlePressedMusic}) {
 
     var timeMusic = (item.duration / 60).toFixed(2) + ""
     timeMusic = timeMusic.replace(".", ":")
             
     return (
         <Fragment>
-            <View style={styles.containerItemList}>
+            <TouchableOpacity onPress={handlePressedMusic}>
+              <View style={styles.containerItemList}>
                 <View style={styles.leftContainer}>
                     <View style={styles.thumb}>
                         <Text style={styles.thumbIcon}>A</Text>
@@ -24,10 +25,12 @@ export default function MusicItemList({item}) {
                     </View>  
                 </View>
                 <View style={styles.rightContainer}>
-                    <Entypo name="dots-three-vertical" size={24} color="black" />
+                    <Entypo name="dots-three-vertical" size={24} color="#666" />
                 </View>
-            </View> 
-            <View style={styles.separator} />
+                </View>
+                <View style={styles.separator} />   
+            </TouchableOpacity>
+            
         </Fragment>
         
     )
@@ -37,6 +40,7 @@ const width = Dimensions.get('window').width
 
 const styles = StyleSheet.create({
     containerItemList:{
+        backgroundColor: "#333",
         width: width - 10,
         padding:15,
         flex:1,
@@ -57,16 +61,16 @@ const styles = StyleSheet.create({
     },
     thumbIcon:{
         fontSize:22,
-        fontWeight:"bold"
+        fontWeight:"bold",
+        color: "#ffbf00"
     },
     musicTitleContainer:{
         flex:1,
         justifyContent:"center",
-        borderTopColor:"#000",
-        borderBottomColor:"#000",
     },
     musicTitle:{
         fontSize:16,
+        color: "#fff"
     },
     rightContainer:{
         justifyContent:"flex-end",
@@ -74,10 +78,13 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems:"center",
     },
+    timeTitle:{
+        color: "#ccc"
+    },
     separator:{
         alignSelf: "center",
         width: width - 40,
         height: 1,
-        backgroundColor: "#ccc"
+        backgroundColor: "#666"
     }
 })
