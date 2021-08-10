@@ -71,14 +71,14 @@ function App() {
   return (
     <NavigationContainer>
       <Navigation/>
-      <StatusBar backgroundColor="#222" />
+      <StatusBar style="light" backgroundColor="#222" />
     </NavigationContainer> 
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50
+    marginTop: 10
   },
   statusBar: {
     backgroundColor: "#222"
