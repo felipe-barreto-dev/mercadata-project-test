@@ -1,19 +1,26 @@
 import React, { Fragment } from 'react'
 import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, FontAwesome } from '@expo/vector-icons';
 
-export default function MusicItemList({item, handlePressedMusic}) {
+export default function MusicItemList({currentAudio, musicsState, item, handlePressedMusic}) {
 
     var timeMusic = (item.duration / 60).toFixed(2) + ""
     timeMusic = timeMusic.replace(".", ":")
             
     return (
-        <Fragment>
-            <TouchableOpacity onPress={handlePressedMusic}>
-              <View style={styles.containerItemList}>
+        <TouchableOpacity onPress={handlePressedMusic}>
+            <Fragment>
+                <View style={styles.containerItemList}>
                 <View style={styles.leftContainer}>
                     <View style={styles.thumb}>
-                        <Text style={styles.thumbIcon}>A</Text>
+                        <Text style={styles.thumbIcon}>
+                            {musicsState == null || currentAudio !== item.id ? 
+                            (item.filename.charAt(0).toUpperCase()) : null }
+                            {musicsState == 'playing' && currentAudio == item.id &&
+                            <FontAwesome name="pause-circle-o" size={30} color="#ffbf00" />}
+                            {musicsState == 'stopped' && currentAudio == item.id &&
+                            <FontAwesome name="play-circle-o" size={30} color="#ffbf00" />}
+                        </Text>
                     </View>
                     <View style={styles.musicTitleContainer}>
                         <Text style={styles.musicTitle} numberOfLines={1} >
@@ -28,11 +35,10 @@ export default function MusicItemList({item, handlePressedMusic}) {
                     <Entypo name="dots-three-vertical" size={24} color="#666" />
                 </View>
                 </View>
-                <View style={styles.separator} />   
-            </TouchableOpacity>
-            
-        </Fragment>
-        
+                <View style={styles.separator} /> 
+            </Fragment>
+        </TouchableOpacity>
+              
     )
 }
 
@@ -41,12 +47,11 @@ const width = Dimensions.get('window').width
 const styles = StyleSheet.create({
     containerItemList:{
         backgroundColor: "#333",
-        width: width - 10,
+        width: width,
         padding:15,
         flex:1,
         flexDirection:"row",
         justifyContent:"center",
-        alignSelf: "center",
         alignItems: "center",
     },
     leftContainer:{

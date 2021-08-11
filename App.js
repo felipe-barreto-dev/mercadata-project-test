@@ -70,8 +70,10 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Navigation/>
-      <StatusBar style="light" backgroundColor="#222" />
+    
+        <Navigation/>
+        <StatusBar style="light" backgroundColor="#222" />
+      
     </NavigationContainer> 
   );
 }
@@ -80,7 +82,5 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 10
   },
-  statusBar: {
-    backgroundColor: "#222"
-  }
+  
 });
