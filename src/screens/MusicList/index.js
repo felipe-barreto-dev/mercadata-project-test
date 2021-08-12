@@ -28,6 +28,9 @@ export default function MusicList() {
     const [positionMillis, setPositionMillis] = useState(null)
     const [currentPosition, setCurrentPosition] = useState(0)
 
+    var timeMusic = currentAudio ? (currentAudio.duration / 60).toFixed(2) + "" : ""
+    timeMusic = timeMusic.replace(".", ":")
+
     const convertTime = minutes => {
         if (minutes) {
           const hrs = minutes / 60;
@@ -66,7 +69,7 @@ export default function MusicList() {
     }
 
     const onPlaybackStatusUpdate = async playbackStatus => {
-        
+
         if(playbackStatus.isLoaded && playbackStatus.isPlaying) {
             setPositionMillis(playbackStatus.positionMillis)
             setDurationMillis(playbackStatus.durationMillis)
@@ -131,47 +134,63 @@ export default function MusicList() {
             
             <Header soundOBJ={soundObject} playbackOBJ={playbackAudio} durationMillis={durationMillis} positionMillis={positionMillis} changeStates={() => changeStates} ></Header>
 
-            <Slider
-                    style={{width: width, height: 40,}}
-                    minimumValue={0}
-                    maximumValue={1}
-                    value={valueSeekBar()}
-                    minimumTrackTintColor="#ffbf00"
-                    maximumTrackTintColor="#000000"
-                    onValueChange={value => {
-                        if(currentAudio) {
-                           setCurrentPosition(convertTime(value * currentAudio.duration)); 
-                        }
-                        setCurrentPosition(0)
-                      }}
-                    onSlidingStart={async () => {
-                        if (!musicsState) return;
-            
-                        try {
-                            await pause(playbackAudio);
-                        
-                        } catch (error) {
-                            console.log('error inside onSlidingStart callback', error);
-                        }
-                    }}
-                    onSlidingComplete={ async (value) => {
-                        if(soundObject === null || !musicsState) return 
-
-                        try{
-
-                            const status = await playbackAudio.setPositionAsync(value * durationMillis)
-                            setSoundObject(status)
-                            setPositionMillis(status.positionMillis)
-                            await resume(playbackAudio)
-                            
-                        
-                        } catch(error) {
-                            console.log(error)
-                        }
-                            
+            {soundObject &&
+            <View style={styles.controller}>
+                <View style={styles.containerCurrentMusic}>
+                    <Text numberOfLines={1} style={styles.titleCurrentMusic}>{currentAudio ? currentAudio.filename : ""}</Text>
+                </View>
+                <View style={styles.seekbar} >
+                    <Text style={styles.time}>{currentAudio &&
+                    convertTime(currentAudio.duration)}</Text>
+                    <Slider
+                        style={{width: width * 0.7, height: 40,}}
+                        minimumValue={0}
+                        maximumValue={1}
+                        value={valueSeekBar()}
+                        minimumTrackTintColor="#ffbf00"
+                        maximumTrackTintColor="#000000"
+                        onValueChange={value => {
+                            if(currentAudio) {
+                                setCurrentPosition(convertTime(value * currentAudio.duration)); 
+                            }
+                            setCurrentPosition(0)
+                            }}
+                        onSlidingStart={async () => {
+                            if (!musicsState) return;
                     
-                    }}
-                />  
+                            try {
+                                await pause(playbackAudio);
+                                
+                            } catch (error) {
+                                console.log('error inside onSlidingStart callback', error);
+                            }
+                        }}
+                        onSlidingComplete={ async (value) => {
+                            if(soundObject === null || !musicsState) return 
+
+                            try{
+
+                                const status = await playbackAudio.setPositionAsync(value * durationMillis)
+                                setSoundObject(status)
+                                setPositionMillis(status.positionMillis)
+                                await resume(playbackAudio)
+                                    
+                                
+                            } catch(error) {
+                                console.log(error)
+                            }
+                                    
+                            
+                        }}
+                    />
+                    <Text style={styles.time}>{positionMillis || positionMillis !== 0 ? convertTime(positionMillis / 1000) : "00:00"}</Text>
+                </View>
+                
+            </View>
+              
+            }
+
+            
             
             <FlatList 
             data={musics.assets}

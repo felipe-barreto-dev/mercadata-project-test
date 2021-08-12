@@ -6,7 +6,6 @@ export default function OptionsModal({show}) {
     return (
         
         <Fragment>
-            <StatusBar hidden />
             <Modal animationType="slide" transparent visible={show}>
                 <View style={styles.container}>
                     <Text numberOfLines={2} style={styles.titleMusic}>arctic monkeys - cant stop</Text>

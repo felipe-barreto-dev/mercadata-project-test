@@ -10,9 +10,6 @@ export default function Header({durationMillis, positionMillis, soundOBJ, playba
         
         <View style={styles.containerItemList}>
             <Text style={styles.title}>Suas músicas</Text>
-            <View style={styles.seekBar} >
-
-            </View>
         </View>   
        
     )
@@ -25,7 +22,7 @@ const styles = StyleSheet.create({
     containerItemList:{
         backgroundColor: "#222",
         width: width,
-        padding:25,
+        padding:10,
         justifyContent:"center",
         alignItems: "center",
     },

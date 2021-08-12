@@ -68,16 +68,16 @@ function App() {
   )
 
   return (
-    <View>
+    <View style={styles.container}>
       <MusicList />
       <StatusBar style="light" backgroundColor="#222" />
-    </View> 
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10
+    backgroundColor: "#333"
   },
   
 });
