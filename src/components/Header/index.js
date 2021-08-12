@@ -1,15 +1,20 @@
 import React, { Fragment } from 'react'
 import { Text, View, StyleSheet, Dimensions } from 'react-native'
 
-export default function Header() {
+
+export default function Header({durationMillis, positionMillis, soundOBJ, playbackOBJ, changeStates}) {
+
+    
 
     return (
         
         <View style={styles.containerItemList}>
             <Text style={styles.title}>Suas músicas</Text>
+            <View style={styles.seekBar} >
+
+            </View>
         </View>   
        
-        
     )
 }
 
@@ -21,7 +26,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#222",
         width: width,
         padding:25,
-        flex:1,
         justifyContent:"center",
         alignItems: "center",
     },
@@ -29,5 +33,9 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
         fontSize: 22,
         color:"#fff"
+    },
+    seekBar:{
+        paddingTop:25
     }
+
 })
