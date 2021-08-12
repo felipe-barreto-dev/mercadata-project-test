@@ -18,25 +18,37 @@ export default function MusicList() {
     const [currentAudio, setCurrentAudio] = useState(null)
     const [playbackAudio, setPlaybackAudio] = useState(new Audio.Sound())
 
-    const onPlaybackStatusUpdate = () => {
-        if(soundObject.isLoaded && soundObject.isPlaying) {
-            console.log(soundObject.positionMillis) 
-            dispatch(setPositionMillis(soundObject.positionMillis))    
-        }  
-    }
+    // const onPlaybackStatusUpdate = async playbackStatus => {
+    //     if(playbackStatus.isLoaded && playbackStatus.isPlaying) {
+    //         console.log(playbackStatus.positionMillis)
+    //         // dispatch(setPositionMillis(playbackStatus.positionMillis))    
+    //     }  
+
+    //     if(playbackStatus.didJustFinish) {
+    //         const nextMusic = (currentAudio.id + 1)
+    //         const music = musics[nextMusic]
+    //         setMusicsState('playing')
+    //         await playbackAudio.stopAsync()
+    //         await playbackAudio.unloadAsync()
+    //         const loadNext = await playbackAudio.loadAsync({uri: music.uri})
+    //         const statusNext = await playbackAudio.playAsync()
+    //         setSoundObject(statusNext)
+    //         setCurrentAudio(music)
+    //     }
+    // }
 
     async function handlePressedMusic(music) {
 
-        if  (soundObject == null) {
+        if  (soundObject == null) { // Toca a música pela primeira vez
 
             setMusicsState('playing')
             const load = await playbackAudio.loadAsync({uri: music.uri})
             const status = await playbackAudio.playAsync()
             setSoundObject(status)
             setCurrentAudio(music)       
-            playbackAudio.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate)
+            // return playbackAudio.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate)
             
-        } else if   (soundObject.isLoaded && soundObject.isPlaying && currentAudio.id == music.id) {
+        } else if   (soundObject.isLoaded && soundObject.isPlaying && currentAudio.id == music.id) { // Pausa a música atual
 
             setMusicsState('stopped')
             const statusPause = await playbackAudio.pauseAsync()
@@ -45,13 +57,13 @@ export default function MusicList() {
         } else if   (
             soundObject.isLoaded && 
             !soundObject.isPlaying && 
-            currentAudio.id == music.id) {
+            currentAudio.id == music.id) { // Retoma a música atual
 
             setMusicsState('playing')
             const statusResume = await playbackAudio.playAsync(); 
             setSoundObject(statusResume)    
             
-        } else if   (soundObject.isLoaded && currentAudio.id != music.id) {
+        } else if   (soundObject.isLoaded && currentAudio.id != music.id) { // Seleciona outra música
 
             setMusicsState('playing')
             await playbackAudio.stopAsync()
@@ -69,14 +81,13 @@ export default function MusicList() {
         
         dispatch(setMusic(soundObject))
         
-         
     }, [soundObject])
 
 
     const item = ({item}) => {
-    if(item.duration >= 60.000) {
-    return <MusicItemList currentAudio={currentAudio ? currentAudio.id : null} musicsState={musicsState} item={item} handlePressedMusic={() => handlePressedMusic(item)}/>
-    }
+        if(item.duration >= 60.000) {
+        return <MusicItemList currentAudio={currentAudio ? currentAudio.id : null} musicsState={musicsState} item={item} handlePressedMusic={() => handlePressedMusic(item)}/>
+        }
     }
 
     return (

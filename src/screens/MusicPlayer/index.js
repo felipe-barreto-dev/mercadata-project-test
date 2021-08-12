@@ -3,8 +3,7 @@ import { View, Text, FlatList, Dimensions } from 'react-native'
 import { useSelector } from 'react-redux'
 import Header from '../../components/Header'
 import {styles} from './styles'
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { FontAwesome, Foundation } from '@expo/vector-icons';
+import { FontAwesome, Foundation, MaterialCommunityIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import { setMusic } from '../../redux/modules/musics'
 
@@ -15,12 +14,22 @@ export default function MusicPlayer() {
     const {music, positionMillis} = useSelector((state) => state.musics)
 
     const [musicIsPlaying, setMusicIsPlaying] = useState(false)
-    const [valueSeekBar, setValueSeekBar] = useState(0)
 
-    console.log(positionMillis)
+    // console.log(positionMillis)
+
+    // const valueSeekBar = () => {
+        
+    //     if (music == null || positionMillis == 0) {
+    //         return 0
+    //     } else {
+    //         return (positionMillis + 1) / music.durationMillis
+    //     }
+       
+    // }
     
     useEffect(() => {
         if(music) {
+            // valueSeekBar()
             setMusicIsPlaying(music.isPlaying) 
         }
     }, [music])
@@ -44,7 +53,7 @@ export default function MusicPlayer() {
                     style={{width: width, height: 40,}}
                     minimumValue={0}
                     maximumValue={1}
-                    value={valueSeekBar}
+                    value={0}
                     minimumTrackTintColor="#ffbf00"
                     maximumTrackTintColor="#000000"
                 />  

@@ -7,7 +7,7 @@ export const Types = {
 const initialState = {
     musics: {},
     music: null,
-    positionMillis: null
+    positionMillis: 0
 };
 
 export default function reducer(state = initialState, action) {

@@ -1,11 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
-import Navigation from './src/navigation'
-import { NavigationContainer } from '@react-navigation/native';
 import * as MediaLibrary from 'expo-media-library';
 import { setMusics } from './src/redux/modules/musics';
 import { useDispatch, useSelector, Provider } from 'react-redux';
+import {MusicList} from './src/screens'
 
 import store from './src/redux/store';
 
@@ -69,12 +68,10 @@ function App() {
   )
 
   return (
-    <NavigationContainer>
-    
-        <Navigation/>
-        <StatusBar style="light" backgroundColor="#222" />
-      
-    </NavigationContainer> 
+    <View>
+      <MusicList />
+      <StatusBar style="light" backgroundColor="#222" />
+    </View> 
   );
 }
 
