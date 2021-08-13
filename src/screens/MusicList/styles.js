@@ -3,8 +3,8 @@ import {StyleSheet, StatusBar, Dimensions} from 'react-native'
 export const styles = StyleSheet.create({
     container: {
       backgroundColor: '#333',
-      paddingVertical: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-      height: Dimensions.get('window').height
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      height: Dimensions.get('window').height * 1.2,
     },
     controller: {
       backgroundColor: '#222',
@@ -30,6 +30,7 @@ export const styles = StyleSheet.create({
       color: "#fff",
       fontSize: 16,
       fontWeight: "bold"
-    }
+    },
+   
 
 });

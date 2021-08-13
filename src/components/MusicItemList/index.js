@@ -1,11 +1,9 @@
 import React, { Fragment } from 'react'
 import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 import { Entypo, FontAwesome } from '@expo/vector-icons';
+import {convertTime} from '../../audioController'
 
 export default function MusicItemList({currentAudio, musicsState, item, handlePressedMusic, handleShowModal}) {
-
-    var timeMusic = (item.duration / 60).toFixed(2) + ""
-    timeMusic = timeMusic.replace(".", ":")
             
     return ( 
     <Fragment>
@@ -28,15 +26,15 @@ export default function MusicItemList({currentAudio, musicsState, item, handlePr
                             {item.filename}
                         </Text>
                         <Text style={styles.timeTitle} numberOfLines={1} >
-                            {timeMusic}
+                            {convertTime(item.duration)}
                         </Text>
                     </View>  
                 </View>
-                <TouchableOpacity onPress={handleShowModal}>
-                    <View  style={styles.rightContainer}>
-                    <Entypo name="dots-three-vertical" size={24} color="#666" />
-                    </View>
-                </TouchableOpacity>
+               
+                <View  style={styles.rightContainer}>
+                    <Entypo onPress={handleShowModal} name="dots-three-vertical" size={24} color="#666" />
+                </View>
+               
                 </View>
                 <View style={styles.separator} /> 
             

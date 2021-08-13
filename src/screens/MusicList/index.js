@@ -5,14 +5,13 @@ import MusicItemList from '../../components/MusicItemList'
 import {Audio} from 'expo-av'
 import Header from '../../components/Header'
 import OptionsModal from '../../components/Modal'
-import { setMusic, setPositionMillis } from '../../redux/modules/musics';
-import {play, pause, resume, playNext} from '../../audioController'
+import { setMusic } from '../../redux/modules/musics'
+import {play, pause, resume, playNext, convertTime} from '../../audioController'
 import Slider from '@react-native-community/slider';
 
 import {styles} from './styles'
 
 const width = Dimensions.get('window').width
-const height = Dimensions.get('window').height
 
 export default function MusicList() {
 
@@ -31,31 +30,7 @@ export default function MusicList() {
     var timeMusic = currentAudio ? (currentAudio.duration / 60).toFixed(2) + "" : ""
     timeMusic = timeMusic.replace(".", ":")
 
-    const convertTime = minutes => {
-        if (minutes) {
-          const hrs = minutes / 60;
-          const minute = hrs.toString().split('.')[0];
-          const percent = parseInt(hrs.toString().split('.')[1].slice(0, 2));
-          const sec = Math.ceil((60 * percent) / 100);
-          if (parseInt(minute) < 10 && sec < 10) {
-            return `0${minute}:0${sec}`;
-          }
-      
-          if (sec == 60) {
-            return `${minute + 1}:00`;
-          }
-      
-          if (parseInt(minute) < 10) {
-            return `0${minute}:${sec}`;
-          }
-      
-          if (sec < 10) {
-            return `${minute}:0${sec}`;
-          }
-      
-          return `${minute}:${sec}`;
-        }
-      };
+    
 
     function valueSeekBar() {
         if(durationMillis !== null && positionMillis !== null) {
@@ -80,7 +55,8 @@ export default function MusicList() {
 
     async function handlePressedMusic(music) {
 
-        if  (soundObject == null) { // Toca a música pela primeira vez
+        if  (soundObject == null) {
+        // Toca a música pela primeira vez
 
             setMusicsState(true)
             const status = await play(playbackAudio, music.uri)
@@ -88,7 +64,8 @@ export default function MusicList() {
             setCurrentAudio(music)       
             return playbackAudio.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate)
             
-        } else if   (soundObject.isLoaded && soundObject.isPlaying && currentAudio.id == music.id) { // Pausa a música atual
+        } else if   (soundObject.isLoaded && soundObject.isPlaying && currentAudio.id == music.id) {
+        // Pausa a música atual
 
             setMusicsState(false)
             const status = await pause(playbackAudio)
@@ -98,14 +75,14 @@ export default function MusicList() {
             soundObject.isLoaded && 
             !soundObject.isPlaying && 
             currentAudio.id == music.id) { 
-            // Retoma a música atual
+        // Retoma a música atual
 
             setMusicsState(true)
             const status = await resume(playbackAudio)
             setSoundObject(status)    
             
         } else if   (soundObject.isLoaded && currentAudio.id != music.id) { 
-            // Seleciona outra música
+        // Seleciona outra música
             
             const status = await playNext(playbackAudio, music.uri)
             setMusicsState(true)
@@ -125,7 +102,7 @@ export default function MusicList() {
 
     const item = ({item}) => {
         if(item.duration >= 60.000) {
-        return <MusicItemList currentAudio={currentAudio ? currentAudio.id : null} musicsState={musicsState} item={item} handlePressedModal={() => handlePressedOptions()} handlePressedMusic={() => handlePressedMusic(item)}/>
+        return <MusicItemList currentAudio={currentAudio ? currentAudio.id : null} musicsState={musicsState} item={item} handlePressedModal={() => setShowModal(true)} handlePressedMusic={() => handlePressedMusic(item)}/>
         }
     }
 
