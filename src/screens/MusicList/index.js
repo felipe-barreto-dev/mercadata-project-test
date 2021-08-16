@@ -166,9 +166,7 @@ export default function MusicList() {
             </View>
               
             }
-
-            
-            
+  
             <FlatList 
             data={musics.assets}
             renderItem={item}

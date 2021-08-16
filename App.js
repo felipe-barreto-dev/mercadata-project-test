@@ -1,19 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import { setMusics } from './src/redux/modules/musics';
-import { useDispatch, useSelector, Provider } from 'react-redux';
+import { useDispatch, Provider } from 'react-redux';
 import {MusicList} from './src/screens'
 
 import store from './src/redux/store';
-
-// var obj = {"1":5,"2":7,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0}
-// var result = Object.keys(obj).map(function(key) {
-//   return [Number(key), obj[key]];
-// });
-
-// console.log(result);
 
 export default function AppWrapper() {
 
